@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>OmniTimer</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <audio id="Audio" src="alarm.mp3" loop></audio>
+
+    <h1 class="p-3" style="font-size: 3vw;"> <i class="bi bi-stopwatch text-primary"></i> OmniTimer</h1>
+
+    <div class="center" style="min-width: 25%;">
+        <div style="position: relative; min-height: 100%; font-size: 3vw;">
+            <p id="TimerTitle" class="p-0 m-0"
+                style="text-align: center; text-transform: uppercase; position:absolute; width: 100%; bottom: 3vw;">
+                nothing</p>
+            <p class="p-0 m-0 noselect"
+                style="text-align: center; text-transform: uppercase; width: 100%; color:black !important;">secret
+            </p>
+            <p id="TimerElem" class="p-0 m-0" style="text-align: center;">00:00:00</p>
+
+            <div style="min-width: 100%; position: absolute; text-align: center; align-items: center; font-size: 1vw;">
+                <div id="MiddleButtonsList">
+                    <button id="StudyBtn" class="btn btn-primary mb-2" style="min-width: 50%;"
+                        onclick="StartStudy()">Lets
+                        study!</button>
+                    <button id="BreakBtn" class="btn btn-primary mb-2" style="min-width: 50%;" onclick="StartBreak()">
+                        Lets relax!</button>
+
+                    <button id="PauseBtn" class="btn btn-outline-warning m-0" style="min-width: 50%; display: none;"
+                        onclick="ToggleTimer()">Pause
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="ControlPanel" class="p-3" style="bottom:0; position: fixed; font-size: 1vw;">
+        <div style="white-space: nowrap;">
+            <p style="display: inline-block;">Study time</p>
+            <div id="studyHr" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
+                oninput="OnTimerValuesInput($(this))">00</div>
+            :
+            <div id="studyMin" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
+                oninput="OnTimerValuesInput($(this))">00</div>
+            :
+            <div id="studySec" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
+                oninput="OnTimerValuesInput($(this))">00</div>
+            <button class="btn btn-primary py-1 px-3" style="font-size:1vw;" onclick="StartStudy()">Start</button>
+        </div>
+        <div style="white-space: nowrap;">
+            <p style="display: inline-block;">Break time</p>
+            <div id="breakHr" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
+                oninput="OnTimerValuesInput($(this))">00</div>
+            :
+            <div id="breakMin" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
+                oninput="OnTimerValuesInput($(this))">00</div>
+            :
+            <div id="breakSec" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
+                oninput="OnTimerValuesInput($(this))">00</div>
+            <button class="btn btn-primary py-1 px-3" style="font-size:1vw;" onclick="StartBreak()">Start</button>
+        </div>
+    </div>
+
+    <script src="script.js"> </script>
+</body>
+
+</html>
