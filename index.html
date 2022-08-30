@@ -49,26 +49,26 @@
     <div id="ControlPanel" class="p-3" style="bottom:0; position: fixed; font-size: 1vw;">
         <div style="white-space: nowrap;">
             <p style="display: inline-block;">Study time</p>
-            <div id="studyHr" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
-                oninput="OnTimerValuesInput($(this))">00</div>
+            <div id="StudyHr" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
+                oninput="OnTimerValuesInput($(this))">0</div>
             :
-            <div id="studyMin" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
-                oninput="OnTimerValuesInput($(this))">00</div>
+            <div id="StudyMin" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
+                oninput="OnTimerValuesInput($(this))">0</div>
             :
-            <div id="studySec" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
-                oninput="OnTimerValuesInput($(this))">00</div>
+            <div id="StudySec" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
+                oninput="OnTimerValuesInput($(this))">0</div>
             <button class="btn btn-primary py-1 px-3" style="font-size:1vw;" onclick="StartStudy()">Start</button>
         </div>
         <div style="white-space: nowrap;">
             <p style="display: inline-block;">Break time</p>
-            <div id="breakHr" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
-                oninput="OnTimerValuesInput($(this))">00</div>
+            <div id="BreakHr" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
+                oninput="OnTimerValuesInput($(this))">0</div>
             :
-            <div id="breakMin" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
-                oninput="OnTimerValuesInput($(this))">00</div>
+            <div id="BreakMin" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
+                oninput="OnTimerValuesInput($(this))">0</div>
             :
-            <div id="breakSec" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
-                oninput="OnTimerValuesInput($(this))">00</div>
+            <div id="BreakSec" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
+                oninput="OnTimerValuesInput($(this))">0</div>
             <button class="btn btn-primary py-1 px-3" style="font-size:1vw;" onclick="StartBreak()">Start</button>
         </div>
     </div>

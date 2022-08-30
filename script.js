@@ -3,13 +3,13 @@
 var TimerElem = $("#TimerElem");
 var AudioElem = $("#Audio");
 
-var StudyHrElem = $("#studyHr");
-var StudyMinElem = $("#studyMin");
-var StudySecElem = $("#studySec");
+var StudyHrElem = $("#StudyHr");
+var StudyMinElem = $("#StudyMin");
+var StudySecElem = $("#StudySec");
 
-var BreakHrElem = $("#breakHr");
-var BreakMinElem = $("#breakMin");
-var BreakSecElem = $("#breakSec");
+var BreakHrElem = $("#BreakHr");
+var BreakMinElem = $("#BreakMin");
+var BreakSecElem = $("#BreakSec");
 
 var TitleElem = $("#TimerTitle");
 
@@ -24,10 +24,15 @@ var ControlPanel = $("#ControlPanel");
 var BlinkerInterval = -1;
 var TimerInterval = -1;
 
-var CountDownDateTime;
+var CountDownDateTime = null;
+var PauseDateTime = null;
 var IsPause = false;
 
-var CurrentTitle = "nothing";
+const IdleTitle = "nothing";
+const StudyTitle = "study";
+const BreakTitle = "break";
+
+var CurrentTitle = IdleTitle;
 
 function StartStudy()
 {
@@ -35,7 +40,7 @@ function StartStudy()
     var min = localStorage.getItem("studyMin");
     var sec = localStorage.getItem("studySec");
 
-    CurrentTitle = "study";
+    CurrentTitle = StudyTitle;
 
     StartTimer(hr, min, sec);
 }
@@ -46,7 +51,7 @@ function StartBreak()
     var min = localStorage.getItem("breakMin");
     var sec = localStorage.getItem("breakSec");
 
-    CurrentTitle = "break";
+    CurrentTitle = BreakTitle;
 
     StartTimer(hr, min, sec);
 }
@@ -54,10 +59,9 @@ function StartBreak()
 async function StartTimer(hr, min, sec)
 {
     ControlPanel.fadeOut("fast");
-    IsPause = false;
-    PauseBtn.text("Pause");
+    ResumeTimer();
     clearInterval(TimerInterval);
-    ShutTheTimer(true);
+    ShutTheTimer();
 
     if (PauseBtn.css("display") == "none")
     {
@@ -76,22 +80,50 @@ async function ChangeTitle(title, func)
 
 function ToggleTimer()
 {
-    var newTitle;
-    var func;
     if (IsPause)
     {
-        newTitle = CurrentTitle;
-        PauseBtn.text("Pause");
-        func = IsPause = !IsPause;
+        ResumeTimer();
     }
     else
     {
-        newTitle = `Pause (${ CurrentTitle })`
-        PauseBtn.text("Resume");
-        IsPause = !IsPause;
+        PauseTimer()
+    }
+}
+
+function PauseTimer()
+{
+    if (PauseDateTime != null)
+    {
+        return;
     }
 
-    ChangeTitle(newTitle, func);
+    var newTitle = `Pause (${ CurrentTitle })`;
+    PauseDateTime = new Date().getTime();
+
+    ProcessPauseStateChange("Resume", newTitle);
+}
+
+function ResumeTimer()
+{
+    if (PauseDateTime == null)
+    {
+        return;
+    }
+
+    var newTitle = CurrentTitle;
+    CountDownDateTime += new Date().getTime() - PauseDateTime;
+    PauseDateTime = null;
+
+    ProcessPauseStateChange("Pause", newTitle);
+
+    IsPause = false;
+}
+
+function ProcessPauseStateChange(newPauseBtnText, newTitle)
+{
+    PauseBtn.text(newPauseBtnText);
+    ChangeTitle(newTitle);
+    IsPause = !IsPause;
 }
 
 function StartInterval(hr, min, sec)
@@ -99,13 +131,12 @@ function StartInterval(hr, min, sec)
     clearInterval(TimerInterval);
     CountDownDateTime = new Date().getTime() + (hr * 60 * 60 * 1000) + (min * 60 * 1000) + (sec * 1000);
 
-    var intervalMs = 100;
+    var intervalMs = 500;
 
     TimerInterval = setInterval(function ()
     {
         if (IsPause)
         {
-            CountDownDateTime += intervalMs;
             return;
         }
 
@@ -179,25 +210,22 @@ function GetTimerString(days, hours, minutes, seconds)
     return result;
 }
 
-function ShutTheTimer(noFancy)
+function ShutTheTimer()
 {
     if (BlinkerInterval < 0)
     {
         return;
     }
 
-    if (!noFancy || noFancy == undefined)
-    {
-        ChangeTitle("nothing");
+    ChangeTitle(IdleTitle);
 
-        if (CurrentTitle == "study")
-        {
-            BreakBtn.fadeIn();
-        }
-        else if (CurrentTitle == "break")
-        {
-            StudyBtn.fadeIn();
-        }
+    if (CurrentTitle == StudyTitle)
+    {
+        BreakBtn.fadeIn();
+    }
+    else if (CurrentTitle == BreakTitle)
+    {
+        StudyBtn.fadeIn();
     }
 
     clearInterval(BlinkerInterval);
@@ -211,8 +239,8 @@ function ShutTheTimer(noFancy)
 function LoadTimerValues()
 {
     var items = {
-        "studyHr": StudyHrElem, "studyMin": StudyMinElem, "studySec": StudySecElem,
-        "breakHr": BreakHrElem, "breakMin": BreakMinElem, "breakSec": BreakSecElem
+        "StudyHr": StudyHrElem, "StudyMin": StudyMinElem, "StudySec": StudySecElem,
+        "BreakHr": BreakHrElem, "BreakMin": BreakMinElem, "BreakSec": BreakSecElem
     };
 
     for (const [key, value] of Object.entries(items))
@@ -231,12 +259,14 @@ function LoadTimerValues()
 
 function OnTimerValuesInput(element)
 {
-    if (element.text() == "")
+    var newValue = element.text();
+
+    if (newValue == "")
     {
-        return;
+        newValue = 0;
     }
 
-    localStorage.setItem(element.attr("id"), element.text())
+    localStorage.setItem(element.attr("id"), newValue)
 }
 
 function InputValidation(evt)
@@ -249,6 +279,6 @@ function InputValidation(evt)
 
 $(document).ready(function () 
 {
-    document.addEventListener("click", () => ShutTheTimer(false))
+    document.addEventListener("click", () => ShutTheTimer())
     LoadTimerValues();
 })
