@@ -36,9 +36,9 @@ var CurrentTitle = IdleTitle;
 
 function StartStudy()
 {
-    var hr = localStorage.getItem("studyHr");
-    var min = localStorage.getItem("studyMin");
-    var sec = localStorage.getItem("studySec");
+    var hr = localStorage.getItem("StudyHr");
+    var min = localStorage.getItem("StudyMin");
+    var sec = localStorage.getItem("StudySec");
 
     CurrentTitle = StudyTitle;
 
@@ -47,9 +47,9 @@ function StartStudy()
 
 function StartBreak()
 {
-    var hr = localStorage.getItem("breakHr");
-    var min = localStorage.getItem("breakMin");
-    var sec = localStorage.getItem("breakSec");
+    var hr = localStorage.getItem("BreakHr");
+    var min = localStorage.getItem("BreakMin");
+    var sec = localStorage.getItem("BreakSec");
 
     CurrentTitle = BreakTitle;
 
