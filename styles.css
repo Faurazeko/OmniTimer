@@ -23,7 +23,7 @@ body {
 
 .timer-input {
     display: inline-block;
-    width: 2vw;
+    width: 2rem;
     border: solid 0.15vw;
     border-radius: 0.5vw;
     vertical-align: middle;

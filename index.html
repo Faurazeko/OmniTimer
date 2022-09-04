@@ -46,7 +46,7 @@
     </div>
 
 
-    <div id="ControlPanel" class="p-3" style="bottom:0; position: fixed; font-size: 1vw;">
+    <div id="ControlPanel" class="p-3" style="bottom:0; position: fixed; font-size: 1.25rem;">
         <div style="white-space: nowrap;">
             <p style="display: inline-block;">Study time</p>
             <div id="StudyHr" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
@@ -57,7 +57,7 @@
             :
             <div id="StudySec" contenteditable class="timer-input" onkeypress="return InputValidation(event)"
                 oninput="OnTimerValuesInput($(this))">0</div>
-            <button class="btn btn-primary py-1 px-3" style="font-size:1vw;" onclick="StartStudy()">Start</button>
+            <button class="btn btn-primary py-1 px-3" onclick="StartStudy()">Start</button>
         </div>
         <div style="white-space: nowrap;">
             <p style="display: inline-block;">Break time</p>
